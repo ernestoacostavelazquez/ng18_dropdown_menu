@@ -1,12 +1,26 @@
-import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
 
+  isDropdownOpen = false;
+  toggleDropdown(){
+    this.isDropdownOpen =!this.isDropdownOpen;
+  }
+
+  @HostListener('document:click',['$event'])
+  onClick(event:MouseEvent){
+    const target = event.target as HTMLElement;
+    const clickedInside = target.closest('.relative');
+    if(!clickedInside){
+      this.isDropdownOpen = false;
+    }
+  }
 }
